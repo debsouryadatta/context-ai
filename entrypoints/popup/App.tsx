@@ -154,7 +154,7 @@ function App() {
             <span className="text-xl">🤖</span>
           </div>
           <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-            Gemini API
+            Context AI
           </h2>
         </div>
         
@@ -204,7 +204,12 @@ function App() {
               value={inputApiKey}
               onChange={handleApiKeyChange}
               placeholder="Paste your Gemini API key here"
-              className="w-full p-3 rounded-lg border border-gray-200 text-sm outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 bg-white/90"
+              className="w-full p-3 pr-24 rounded-lg border border-gray-200 text-sm outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 bg-white/90 truncate"
+              style={{
+                textOverflow: 'ellipsis',
+                maskImage: 'linear-gradient(to right, black 85%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, black 85%, transparent 100%)'
+              }}
             />
             
             {inputApiKey && (
@@ -245,7 +250,7 @@ function App() {
           </button>
           
           {/* Notification messages - absolute positioned to not affect layout */}
-          <div className="absolute -bottom-6 left-0 right-0 px-5">
+          <div className="absolute bottom-14 left-0 right-0 px-5">
             {isSaved && (
               <div className="text-xs text-indigo-600 flex items-center gap-1 animate-fadeIn">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">

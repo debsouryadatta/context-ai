@@ -9,3 +9,7 @@
 7. Using browser message api for sending messages between popup and content script when the config object is updated
 8. Used vercel ai sdk for calling the Gemini API and showing the response in a streaming fashion
 9. Added Markdown support inside the chat interface
+10. Adding new chat functionality, saving each of the chats into the config object, user can switch back to previous chats
+11. Users can add the page content as context when option is enabled
+12. Adding theme options for light and dark mode
+13. Adding model options for Gemini 2.0 Flash and Gemini 2.5 Pro

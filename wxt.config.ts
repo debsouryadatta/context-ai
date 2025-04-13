@@ -5,7 +5,7 @@ export default defineConfig({
   manifest: {
     name: "Context AI",
     description: "Context AI",
-    version: "0.0.0",
+    version: "1.0.0",
     permissions: [
       "storage",
       "tabs"

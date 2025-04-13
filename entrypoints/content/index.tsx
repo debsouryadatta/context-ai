@@ -1,6 +1,6 @@
 import './content-style.css';
 import ReactDOM from 'react-dom/client';
-import Assistant from './Assistant.tsx';
+import Assistant from './components/Assistant.tsx';
 
 export default defineContentScript({
   matches: ['<all_urls>'],

@@ -25,7 +25,7 @@ const Assistant = () => {
   const [apiKey, setApiKey] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [modelSelection, setModelSelection] = useState<string>("gemini-2.0-flash");
+  const [modelSelection, setModelSelection] = useState<string>("gemini-2.0-flash-exp");
   const [chatDimensions, setChatDimensions] = useState({
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,

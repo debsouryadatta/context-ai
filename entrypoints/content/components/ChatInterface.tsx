@@ -119,15 +119,15 @@ const ChatInterface = ({
                 />
               </svg>
               <span className="text-xs">
-                {modelSelection === "gemini-2.0-flash" ? "Gemini 2.0 Flash" : "Gemini 2.5 Pro"}
+                {modelSelection === "gemini-2.0-flash-exp" ? "Gemini 2.0 Flash" : "Gemini 2.5 Pro"}
               </span>
             </button>
             <div className="absolute right-0 top-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10 hidden group-hover:block">
               <div className="py-1">
                 <button
-                  onClick={() => onModelChange("gemini-2.0-flash")}
+                  onClick={() => onModelChange("gemini-2.0-flash-exp")}
                   className={`block w-full text-left px-4 py-2 text-sm ${
-                    modelSelection === "gemini-2.0-flash"
+                    modelSelection === "gemini-2.0-flash-exp"
                       ? "bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200"
                       : "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`}

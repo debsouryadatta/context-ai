@@ -151,7 +151,11 @@ function App() {
         {/* Header with logo and title */}
         <div className="flex items-center mb-4">
           <div className="flex items-center justify-center mr-3 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20">
-            <span className="text-xl">🤖</span>
+            <img 
+              src="https://res.cloudinary.com/diyxwdtjd/image/upload/v1744564843/projects/context-ai-logo.png" 
+              alt="Context AI Logo" 
+              className="w-6 h-6"
+            />
           </div>
           <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
             Context AI

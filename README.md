@@ -192,7 +192,7 @@ The extension uses the following storage schema to maintain chat history and set
     "config": {
         "geminiApiKey": "your-api-key",
         "extensionEnabled": true,
-        "geminiModel": "gemini-2.0-flash",
+        "geminiModel": "gemini-2.0-flash-exp",
         "theme": "light",
         "chatDimensions": {
             "width": 384,

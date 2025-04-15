@@ -57,6 +57,7 @@ Context AI is a powerful browser extension that brings the capabilities of Googl
 - **Contextual Web Page Chat**: Chat with an AI assistant about the content of any webpage you're browsing
 - **Multi-Chat Support**: Create and manage multiple conversations with a convenient chat history interface
 - **Page Content Integration**: Toggle the ability to include current page content in your conversations for more contextual responses
+- **Search Tool Integration**: Enable Gemini's search grounding capability to provide more accurate and up-to-date information
 - **Theme Customization**: Switch between light and dark mode themes based on your preference
 - **Model Selection**: Choose between different Gemini AI models:
   - Gemini 2.0 Flash (default) - Faster response times
@@ -81,6 +82,7 @@ Context AI is a powerful browser extension that brings the capabilities of Googl
 * [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 * [Gemini API](https://ai.google.dev/) - Google's generative AI models
 * [AI SDK](https://sdk.vercel.ai/docs) - AI framework for streaming responses
+* [Lucide Icons](https://lucide.dev/) - Beautiful & consistent icon set
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -147,16 +149,20 @@ Your settings will be automatically saved to the browser's storage and synced ac
 2. **Including Page Content**:
    - Toggle the "Include page content" switch to let the AI consider the content of the current page in its responses
 
-3. **Managing Chats**:
+3. **Using Search Tool**:
+   - Toggle the "Enable search tool" switch to allow the AI to search for up-to-date information when answering your questions
+   - This feature is particularly useful for factual queries or when you need the most current information
+
+4. **Managing Chats**:
    - Click the chat history icon to view, switch between, or delete previous conversations
    - Create a new chat by clicking the "+" button in the chat list
 
-4. **Changing Models**:
+5. **Changing Models**:
    - Select between Gemini models using the dropdown in the chat interface header:
      - Gemini 2.0 Flash (default): For faster responses
      - Gemini 2.5 Pro: For more advanced capabilities
 
-5. **Customizing the Interface**:
+6. **Customizing the Interface**:
    - Toggle between light and dark themes
    - Resize the chat window by dragging from the top-left corner
 
@@ -208,6 +214,7 @@ The extension uses the following storage schema to maintain chat history and set
                     {"role": "assistant", "content": "Assistant response"}
                 ],
                 "page_content_included": true,
+                "search_tool_enabled": true,
                 "created_at": "ISO-date-string",
                 "updated_at": "ISO-date-string"
             }

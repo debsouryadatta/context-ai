@@ -13,3 +13,5 @@
 11. Users can add the page content as context when option is enabled
 12. Adding theme options for light and dark mode
 13. Adding model options for Gemini 2.0 Flash and Gemini 2.5 Pro
+14. Adding the option to include search tool(ai sdk has search tool option with gemini) in each of the Chat
+15. Using lucide icons instead of svgs/emojis

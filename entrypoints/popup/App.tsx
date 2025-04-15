@@ -1,4 +1,13 @@
 import { useState, useEffect } from 'react';
+import { 
+  Save, 
+  Eye, 
+  EyeOff, 
+  Clipboard, 
+  Check, 
+  Shield, 
+  ToggleRight 
+} from 'lucide-react';
 
 // Cross-browser compatibility
 declare const chrome: any;
@@ -222,7 +231,7 @@ function App() {
                 className="absolute right-12 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-gray-400 hover:text-indigo-500 text-base p-1.5 flex items-center justify-center transition-colors duration-200"
                 title={showApiKey ? 'Hide API Key' : 'Show API Key'}
               >
-                {showApiKey ? '👁️' : '👁️‍🗨️'}
+                {showApiKey ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             )}
             
@@ -232,7 +241,7 @@ function App() {
                 className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-gray-400 hover:text-indigo-500 text-base p-1.5 flex items-center justify-center transition-colors duration-200"
                 title="Copy API Key"
               >
-                {isCopied ? '✓' : '📋'}
+                {isCopied ? <Check className="h-5 w-5" /> : <Clipboard className="h-5 w-5" />}
               </button>
             )}
           </div>
@@ -247,9 +256,7 @@ function App() {
                 : "bg-gradient-to-r from-indigo-500 to-violet-500 text-white hover:shadow-md hover:shadow-indigo-500/20"
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
-            </svg>
+            <Save className="h-4 w-4" />
             Save API Key
           </button>
           
@@ -257,18 +264,14 @@ function App() {
           <div className="absolute bottom-14 left-0 right-0 px-5">
             {isSaved && (
               <div className="text-xs text-indigo-600 flex items-center gap-1 animate-fadeIn">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
+                <Check className="h-3.5 w-3.5" />
                 API key saved successfully!
               </div>
             )}
             
             {isCopied && (
               <div className="text-xs text-indigo-600 flex items-center gap-1 animate-fadeIn">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
+                <Check className="h-3.5 w-3.5" />
                 API key copied to clipboard!
               </div>
             )}
@@ -278,9 +281,7 @@ function App() {
         {/* Security note card */}
         <div className="w-full p-3 rounded-xl bg-indigo-50 border border-indigo-100 text-xs text-indigo-700">
           <div className="flex items-start gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
+            <Shield className="h-4 w-4 mt-0.5 flex-shrink-0" />
             <div>
               <span className="font-semibold">Security Note:</span> Your API key is securely stored in browser sync storage and is only used to access Gemini services.
             </div>

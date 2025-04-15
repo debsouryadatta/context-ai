@@ -7,6 +7,7 @@ export interface Chat {
   id: string;
   messages: Message[];
   page_content_included: boolean;
+  search_tool_enabled: boolean;
   created_at: string;
   updated_at: string;
   title?: string;

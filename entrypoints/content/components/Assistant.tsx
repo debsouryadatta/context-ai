@@ -4,6 +4,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { v4 as uuidv4 } from "uuid";
 import ChatInterface from "./ChatInterface";
 import { Message, Chat } from "../types";
+import { X, HelpCircle } from "lucide-react";
 
 // Cross-browser compatibility
 declare const chrome: any;
@@ -11,7 +12,7 @@ declare const browser: any;
 const browserAPI = typeof chrome !== "undefined" ? chrome : browser;
 
 // Default dimensions
-const DEFAULT_WIDTH = 384; // w-96 = 24rem = 384px
+const DEFAULT_WIDTH = 484; // w-96 = 24rem = 384px
 const DEFAULT_HEIGHT = 600;
 
 const Assistant = () => {
@@ -22,6 +23,7 @@ const Assistant = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showChatList, setShowChatList] = useState(false);
   const [includePageContent, setIncludePageContent] = useState(false);
+  const [searchToolEnabled, setSearchToolEnabled] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -83,6 +85,7 @@ const Assistant = () => {
             if (currentChat) {
               setMessages(currentChat.messages);
               setIncludePageContent(currentChat.page_content_included);
+              setSearchToolEnabled(currentChat.search_tool_enabled);
             }
           }
         }
@@ -134,6 +137,7 @@ const Assistant = () => {
           if (currentChat) {
             setMessages(currentChat.messages);
             setIncludePageContent(currentChat.page_content_included);
+            setSearchToolEnabled(currentChat.search_tool_enabled);
           }
         }
       }
@@ -195,6 +199,7 @@ const Assistant = () => {
         id: newChatId,
         messages: [],
         page_content_included: includePageContent,
+        search_tool_enabled: searchToolEnabled,
         created_at: now,
         updated_at: now,
         title: "New Chat" // Default title
@@ -253,6 +258,7 @@ const Assistant = () => {
         setCurrentChatId(chatId);
         setMessages(selectedChat.messages);
         setIncludePageContent(selectedChat.page_content_included);
+        setSearchToolEnabled(selectedChat.search_tool_enabled);
         setShowChatList(false);
       }
     } catch (error) {
@@ -301,9 +307,10 @@ const Assistant = () => {
           setCurrentChatId(updatedChatHistory[updatedChatHistory.length - 1].id);
           setMessages(updatedChatHistory[updatedChatHistory.length - 1].messages);
           setIncludePageContent(updatedChatHistory[updatedChatHistory.length - 1].page_content_included);
+          setSearchToolEnabled(updatedChatHistory[updatedChatHistory.length - 1].search_tool_enabled);
         } else {
           // No chats left, create a new one
-          createNewChat();
+          await createNewChat();
         }
       }
     } catch (error) {
@@ -348,6 +355,47 @@ const Assistant = () => {
         setChatHistory(updatedChatHistory);
       } catch (error) {
         console.error("Error toggling page content inclusion:", error);
+      }
+    }
+  };
+
+  // Toggle search tool
+  const toggleSearchToolEnabled = async () => {
+    const newSearchToolEnabled = !searchToolEnabled;
+    setSearchToolEnabled(newSearchToolEnabled);
+    
+    // If we have a current chat, update its search_tool_enabled property
+    if (currentChatId) {
+      try {
+        // Get current config
+        const result = await browserAPI.storage.sync.get(["config"]);
+        const config = result.config || {};
+        
+        // Update the current chat
+        const updatedChatHistory = config.chat_history?.map((chat: Chat) => {
+          if (chat.id === currentChatId) {
+            return {
+              ...chat,
+              search_tool_enabled: newSearchToolEnabled,
+              updated_at: new Date().toISOString()
+            };
+          }
+          return chat;
+        });
+        
+        // Update config with new chat history
+        const updatedConfig = {
+          ...config,
+          chat_history: updatedChatHistory
+        };
+        
+        // Save updated config
+        await browserAPI.storage.sync.set({ config: updatedConfig });
+        
+        // Update local state
+        setChatHistory(updatedChatHistory);
+      } catch (error) {
+        console.error("Error toggling search tool:", error);
       }
     }
   };
@@ -527,7 +575,7 @@ const Assistant = () => {
 
       // Use the Vercel AI SDK to stream the response
       const { textStream } = streamText({
-        model: genAI(modelSelection),
+        model: genAI(modelSelection, { useSearchGrounding: searchToolEnabled }),
         messages: formattedMessages,
         temperature: 0.7,
       });
@@ -555,7 +603,7 @@ const Assistant = () => {
         
         // Update the current chat
         const updatedChatHistory = config.chat_history?.map((chat: Chat) => {
-          if (chat.id === currentChatId) {
+          if (chat.id === config.current_chat_id) {
             // If this is the first message and no custom title has been set, use the user message as title
             let chatTitle = chat.title;
             if (updatedMessages.length === 1 && updatedMessages[0].role === "user" && (!chat.title || chat.title === "New Chat")) {
@@ -635,6 +683,8 @@ const Assistant = () => {
           toggleTheme={toggleTheme}
           modelSelection={modelSelection}
           onModelChange={handleModelChange}
+          searchToolEnabled={searchToolEnabled}
+          toggleSearchToolEnabled={toggleSearchToolEnabled}
         />
       )}
 
@@ -645,32 +695,10 @@ const Assistant = () => {
         aria-label="Open AI Assistant"
       >
         {isOpen ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <X className="h-6 w-6" />
         ) : (
           <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 mr-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <HelpCircle className="h-6 w-6 mr-2" />
             <span>Ask AI</span>
           </div>
         )}

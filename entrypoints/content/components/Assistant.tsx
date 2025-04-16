@@ -655,7 +655,7 @@ const Assistant = () => {
   if (!isEnabled) return null;
 
   return (
-    <div className="fixed right-10 bottom-10 flex flex-col items-end z-50 font-sans">
+    <div className="fixed right-10 bottom-10 flex flex-col items-end z-[500] font-sans">
       {/* Chat Interface */}
       {isOpen && (
         <ChatInterface

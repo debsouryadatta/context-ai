@@ -221,7 +221,7 @@ const ChatInterface = ({
       {/* Chat Messages */}
       <div
         ref={chatContainerRef}
-        className={`flex-1 p-3 overflow-y-auto ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} scroll-smooth hide-scrollbar`}
+        className={`flex-1 p-3 overflow-y-auto ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'} scroll-smooth`}
       >
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-center">

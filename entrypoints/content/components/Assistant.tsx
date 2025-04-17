@@ -96,6 +96,63 @@ const Assistant = () => {
 
     loadSettings();
 
+    // Add storage change listener to sync state across tabs
+    const handleStorageChange = (changes: any, areaName: string) => {
+      if (areaName === 'sync' && changes.config) {
+        const newConfig = changes.config.newValue;
+        
+        // Update state with new config values
+        if (newConfig) {
+          setApiKey(newConfig.geminiApiKey || "");
+          setIsEnabled(newConfig.extensionEnabled || false);
+          
+          if (newConfig.geminiModel) {
+            setModelSelection(newConfig.geminiModel);
+          }
+          
+          if (newConfig.theme) {
+            setTheme(newConfig.theme);
+          }
+          
+          if (newConfig.chatDimensions) {
+            setChatDimensions(newConfig.chatDimensions);
+          }
+          
+          if (newConfig.chat_history) {
+            setChatHistory(newConfig.chat_history);
+          }
+          
+          // Always update current chat ID and messages to match the storage
+          // This ensures that when switching back to a tab, it shows the most recent chat
+          if (newConfig.current_chat_id) {
+            // Only update if the chat ID has changed or if we're viewing the same chat
+            // that was updated elsewhere
+            const shouldUpdateChat = 
+              newConfig.current_chat_id !== currentChatId || 
+              (newConfig.current_chat_id === currentChatId && changes.config.oldValue?.chat_history);
+              
+            if (shouldUpdateChat) {
+              setCurrentChatId(newConfig.current_chat_id);
+              
+              const updatedCurrentChat = newConfig.chat_history?.find(
+                (chat: Chat) => chat.id === newConfig.current_chat_id
+              );
+              
+              if (updatedCurrentChat) {
+                setMessages(updatedCurrentChat.messages);
+                setIncludePageContent(updatedCurrentChat.page_content_included);
+                setSearchToolEnabled(updatedCurrentChat.search_tool_enabled);
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // Add the storage listener
+    browserAPI.storage.onChanged.addListener(handleStorageChange);
+
+
     // Add listener for configuration changes from popup
     const handleMessage = (message: any) => {
       console.log("Received message in content script:", message);
@@ -147,6 +204,7 @@ const Assistant = () => {
     // Clean up listener when component unmounts
     return () => {
       browserAPI.runtime.onMessage.removeListener(handleMessage);
+      browserAPI.storage.onChanged.removeListener(handleStorageChange);
     };
   }, []);
 

@@ -15,3 +15,4 @@
 13. Adding model options for Gemini 2.0 Flash and Gemini 2.5 Pro
 14. Adding the option to include search tool(ai sdk has search tool option with gemini) in each of the Chat
 15. Using lucide icons instead of svgs/emojis
+16. Bug: Config changes were not being synced across tabs, Fix: Added storage listener (It was arised since diff tabs have diff instances of content script, it was fixed by adding a storage listener which listens for changes in the config object and updates the state accordingly)
